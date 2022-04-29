@@ -1,12 +1,10 @@
 import React from 'react'
 import UserResults from '../components/users/UserResults'
+import UserSearch from '../components/users/UserSearch'
 function Home() {
   return (
     <div>
-        <h1 className='text-6xl' >Welcome</h1>
-        <p>This is a react practive project following the Udemy course 
-            React Front to End 2022
-        </p>
+        <UserSearch />
         <UserResults />
     </div>
   )
