@@ -9,6 +9,7 @@ export const GithubProvider = ({children}) => {
     
     const initialState = {
         users:[],
+        user:{},
         loading:false
     }
 
@@ -33,14 +34,40 @@ export const GithubProvider = ({children}) => {
         })
     }
 
+    //get single User
+    const getUser = async(login)=>{
+        setLoading()
+ 
+        const response = await fetch(`${GITHUB_URL}/users/${login}`, {
+            headers:{
+                Authorization:`token ${GITHUB_TOKEN}`
+            }
+        })
+
+        if(response.status === 404){
+            window.location = '/notfound'
+        } else {
+            const data = await response.json()
+            dispatch({
+                type:'GET_USER',
+                payload: data
+            })
+        }
+
+        
+    }
+
+
     const clearUsers = () => dispatch({type:'CLEAR_USERS'})
     const setLoading = () => dispatch({type:'SET_LOADING'})
     
     return <GithubContext.Provider value={{
         users:state.users,
         loading:state.loading,
+        user:state.user,
         searchUsers,
-        clearUsers
+        clearUsers,
+        getUser
     }}>
         {children}
     </GithubContext.Provider>
